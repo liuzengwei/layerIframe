@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>layer iframe 层（type: 2）</title>
+  <style>
+    button {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    /*
+      为了解决 iOS 设备的 iframe 滑动问题
+      当页面宽度较窄时关闭按钮会显示不全
+      临时修改下 right top 值
+      将来官方可能会提供解决方案
+     */
+    @media screen and (max-width: 1100px) {
+      .layui-layer-setwin .layui-layer-close2 {
+          position: absolute!important;
+          right: -13px!important;
+          top: -13px!important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<button id="type2">iframe 层：有滚动条</button>
+<button id="type2_1">iframe 层：没有滚动条</button>
+<button id="type2_2">iframe 层：没有标题栏</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+
+<script>
+$(function(){
+  $(document).on('click', '#type2', function(){
+    layer.open({
+      type: 2,
+      title: 'layer 官网',
+      content: 'http://layer.layui.com/'
+    });
+  }).on('click', '#type2_1', function(){
+    layer.open({
+      type: 2,
+      title: 'layer 官网，没有滚动条',
+      content: ['http://layer.layui.com/', 'no']
+    });
+  }).on('click', '#type2_2', function(){
+    layer.open({
+      type: 2,
+      title: false,
+      content: 'http://layer.layui.com/'
+    });
+  });
+});
+</script>
+</body>
+</html>

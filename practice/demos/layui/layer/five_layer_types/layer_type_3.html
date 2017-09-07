@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>layer 加载层（type: 3）</title>
+</head>
+<body>
+
+<button id="type3">加载层0</button>
+<button id="type3_1">加载层1</button>
+<button id="type3_2">加载层2</button>
+<button id="type3_3">加载层3</button>
+<button id="type3_4">Ajax 完成后关闭加载层</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+
+<script>
+$(function(){
+  $(document).on('click', '#type3', function(){
+    var index = layer.load();
+    // 两秒后自动关闭
+    setTimeout(function(){
+      layer.close(index);
+    }, 2000);
+  }).on('click', '#type3_1', function(){
+    var index = layer.load(1);
+    // 两秒后自动关闭
+    setTimeout(function(){
+      layer.close(index);
+    }, 2000);
+  }).on('click', '#type3_2', function(){
+    var index = layer.load(2);
+    // 两秒后自动关闭
+    setTimeout(function(){
+      layer.close(index);
+    }, 2000);
+  }).on('click', '#type3_3', function(){
+    var index = layer.msg('加载中', {
+      icon: 16
+      ,shade: 0.01
+    });
+    // 两秒后自动关闭
+    setTimeout(function(){
+      layer.close(index);
+    }, 2000);
+  }).on('click', '#type3_4', function(){
+    var index = layer.load(2);
+    $.ajax({
+      type: 'get',
+      url: '/nothing',
+      timeout: 3000
+    }).done(function(){
+      // ajax 请求成功
+    }).fail(function(){
+      // ajax 请求失败
+    }).always(function(){
+      setTimeout(function(){
+        layer.close(index);
+        layer.msg('ajax 结束');
+      }, 500);
+    });
+    // 两秒后自动关闭
+    setTimeout(function(){
+      layer.close(index);
+    }, 2000);
+  });
+});
+</script>
+</body>
+</html>

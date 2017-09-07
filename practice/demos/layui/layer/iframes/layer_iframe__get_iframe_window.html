@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>在 layer iframe 层中获取父层、顶层 iframe 窗口对象</title>
+</head>
+<body>
+<p>我是在顶层（top）弹出的一个 iframe 层</p>
+
+<button id="btn1">操作父层页面中的「一号普通 iframe」</button>
+<button id="btn2">通过 layer index  操作父层页面中的「二号 layer iframe 层」</button>
+<button id="btn2_1">通过 layer layero 操作父层页面中的「二号 layer iframe 层」</button>
+<button id="btn4">通过 iframe 的 name 属性操作「三、四号普通 iframe」（常规）</button>
+<button id="btn4_silica">通过 iframe 的 name 属性操作「三、四号普通 iframe」（使用 silica）</button>
+<button id="btn4_inner">操作「三号」内部的 layer iframe 层</button>
+<button id="btn5">操作父层页面中的「五、六号 layer iframe 嵌套层」</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layerSilica/layerSilica.js"></script>
+<script>
+$(function(){
+  var _number = 0;
+  var _ls = layerSilica;
+
+  $(document).on('click', '#btn1', function () {
+    // 根据 iframe 的 name 属性获取 iframe 对象
+    // 直接 top['iframe_1'].layer.msg... 也是可以的
+    var iframeName = top.iframeConfig.iframe_1.attr_name;
+    var parentFrameWin1 = _ls.getFrameWinBy(iframeName, top);
+
+    parentFrameWin1.layer.msg('你修改了我——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn2', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // top['layui-layer-iframe' + layerFrameIndex].layer.msg...
+    var layerFrameIndex = top.iframeConfig.iframe_2.layer_index;
+    var parentFrameWin2 = _ls.getFrameWinBy(layerFrameIndex, top);
+    parentFrameWin2.layer.msg('我是二号~！——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn2_1', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // top[top 页面中 layer iframe 层的 layero.find('iframe')[0]['name']].layer.msg...
+    var layerFrameIndex = top.iframeConfig.iframe_2.layer_layero;
+    var parentFrameWin2 = _ls.getFrameWinBy(layerFrameIndex, top);
+    parentFrameWin2.layer.msg('我是二号~！——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn4', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // top[top 页面中 layer iframe 层的 layero.find('iframe')[0]['name']].layer.msg...
+    var iframeWin3 = top['iframe_3'];
+    var iframeWin4 = top['iframe_3']['iframe_4'];
+
+    iframeWin3.layer.msg('我是三号~！——' + _number++, {
+      offset: 't',
+      time: 0
+    });
+    iframeWin4.layer.msg('我是四号~！——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn4_silica', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // top[top 页面中 layer iframe 层的 layero.find('iframe')[0]['name']].layer.msg...
+    var iframeWin3 = _ls.getFrameWinBy('iframe_3', top);
+    var iframeWin4 = _ls.getFrameWinBy('iframe_4', iframeWin3);
+
+    iframeWin3.layer.msg('我是三号~！——' + _number++, {
+      offset: 't',
+      time: 0
+    });
+    iframeWin4.layer.msg('我是四号~！——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn4_inner', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // top[top 页面中 layer iframe 层的 layero.find('iframe')[0]['name']].layer.msg...
+    var iframeWin3 = _ls.getFrameWinBy('iframe_3', top);
+    var iframeInner = _ls.getFrameWinBy(iframeWin3._iframeIndex, iframeWin3);
+
+    if (!iframeInner) {
+      console.log('请先点击「在「我」里面打开 layer iframe 层」按钮');
+      return;
+    } 
+
+    iframeInner.layer.msg('我是三号内部的 layer iframe 层~！——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn5', function () {
+    // 根据 layer iframe 层的 index 属性获取 iframe 对象
+    // 等价于
+    // var iframeWin5 = top['layui-layer-iframe' + top.iframeConfig.iframe_5.layer_index];
+    // var iframeWin6 = iframeWin5['layui-layer-iframe' + top.iframeConfig.iframe_6.layer_index];
+    var iframeWin5 = _ls.getFrameWinBy(top.iframeConfig.iframe_5.layer_index, top);
+
+    if (!iframeWin5) {
+      console.log('请先点击「弹出 五、六号 嵌套 iframe 层」按钮');
+      return;
+    } 
+
+    var iframeWin6 = _ls.getFrameWinBy(top.iframeConfig.iframe_6.layer_index, iframeWin5);
+
+    iframeWin5.layer.msg('我是五号~！——' + _number++, {
+      offset: 't',
+      time: 0
+    });
+    iframeWin6.layer.msg('我是六号~！——' + _number++, {
+      time: 0
+    });
+  })
+});
+</script>
+</body>
+</html>

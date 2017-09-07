@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>layer 页面层（type: 1）</title>
+  <style>
+    .type1_page {
+      padding: 20px 30px;
+    }
+
+    /* 自定义皮肤 */
+    html .layui-layer-demo{background-color:#eee;}
+    .layui-layer-demo .layui-layer-title{border:none; background-color:#333; color:#fff;}
+  </style>
+</head>
+<body>
+<button id="type1">页面层0</button>
+<button id="type1_1">页面层1</button>
+<button id="type1_2">页面层2</button>
+<button id="type1_3">自定义皮肤</button>
+
+<script type="text/html" id="template">
+  <div class="type1_page">我是在模板里的</div>
+</script>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+
+<script>
+$(function(){
+  $(document).on('click', '#type1', function(){
+    layer.open({
+      type: 1,
+      content: '我是一个信息框'
+    });
+  }).on('click', '#type1_1', function(){
+    layer.open({
+      type: 1,
+      content: '<div class="type1_page">我是一个信息框</div>'
+    });
+  }).on('click', '#type1_2', function(){
+    layer.open({
+      type: 1,
+      content: $('#template').html()
+    });
+  }).on('click', '#type1_3', function(){
+    layer.open({
+      type: 1,
+      skin: 'layui-layer-demo', //样式类名
+      closeBtn: 0, //不显示关闭按钮
+      anim: 2,
+      shadeClose: true, //开启点击遮罩关闭
+      content: $('#template').html() + '<div class="type1_page">点击背景可以关闭弹出层</div>'
+    });
+  });
+});
+</script>
+</body>
+</html>

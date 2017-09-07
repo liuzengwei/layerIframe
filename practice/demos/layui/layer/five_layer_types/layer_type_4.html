@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>layer tips 层（type: 4）</title>
+  <style>
+    button {
+      display: block;
+      margin: 50px auto;
+    }
+  </style>
+</head>
+<body>
+
+<button id="type4">tips 层0</button>
+<button id="type4_1">tips 层1</button>
+<button id="type4_2">tips 层2</button>
+<button id="type4_3">点我不会关闭其他 tips 层</button>
+
+<script type="text/html" id="template">
+<div class="type1_page">我是在模板里的</div>
+</script>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+
+<script>
+$(function(){
+  $(document).on('click', '#type4', function(){
+    layer.tips('只想提示地精准些', '#type4');
+  }).on('click', '#type4_1', function(){
+    layer.tips('<div class="type1_page">我是一个tips 层</div>', '#type4_1', {
+      time: 0 // 不自动关闭
+    });
+  }).on('click', '#type4_2', function(){
+    layer.tips($('#template').html(), '#type4_2', {
+      tips: [1, '#3595CC'],
+      time: 0 // 不自动关闭
+    });
+  }).on('click', '#type4_3', function(){
+    layer.tips('<div class="type1_page">我是一个tips 层</div>', '#type4_3', {
+      tipsMore: true, // 允许弹出多个
+      time: 0 // 不自动关闭
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+	<meta charset="UTF-8">
+	<title>layer 的 Layui 模块化用法 - 规范化的用法（推荐）</title>
+</head>
+<body>
+
+<script type="text/javascript" src="/practice/demos/libs/layui/layui.js"></script>
+
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+
+	layer.ready(function() {
+		layer.msg('你好~⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', {
+			time: 0
+		});
+	});
+}); 
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>iframe 窗口对象</title>
+  <style type="text/css">
+    .normal_iframe {
+      border: 2px solid #808080;
+      width: 500px;
+    }
+  </style>
+</head>
+<body>
+<b>Silica</b> 只是个人名，详见 <a href="http://baike.baidu.com/item/%E7%BB%AB%E9%87%8E%E7%8F%AA%E5%AD%90" target="_blank">刀剑神域-西莉卡</a>，并没有什么特殊含义~⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄
+
+<hr>
+<p>下面是一个页面上的普通 iframe</p>
+<iframe src="../quickstart/components_layer.html" id="components_layer" class="normal_iframe" name="iframe_1" frameborder="0"></iframe>
+<hr>
+<p>我和最右边的那个弹出层的内容是一样的</p>
+<iframe src="./layer_iframe__get_iframe_window.html" class="normal_iframe" frameborder="0"></iframe>
+<hr>
+<p>嵌套普通 iframe</p>
+<iframe src="iframe_in_iframe.html" class="normal_iframe" style="height: 300px; width: 600px;" id="iframe_3" name="iframe_3" frameborder="0"></iframe>
+<hr>
+<button id="btn5">弹出 五、六号 嵌套 iframe 层</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layerSilica/layerSilica.js"></script>
+<script>
+$(function(){
+
+  window.iframeConfig = {
+    iframe_1: {
+      attr_name: 'iframe_1'
+    }
+  };
+
+  layer.ready(function(){
+    layer.tips('一号普通 iframe', $('#components_layer'), {
+      time: 0
+    });
+    layer.tips('三号普通 iframe', $('#iframe_3'), {
+      time: 0
+    });
+
+
+    layer.open({
+      type: 2,
+      title: '获取各级 iframe 的 window 对象',
+      shade: false,
+      skin: 'layui-layer-lan',
+      area: ['500px', '300px'],
+      offset: 'r',
+      content: './layer_iframe__get_iframe_window.html'
+    });
+
+    layer.open({
+      type: 2,
+      title: '二号 layer iframe 层',
+      offset: 't',
+      shade: false,
+      fixed: false,
+      content: '../five_layer_types/layer_type_0.html',
+      success: function (layero, index) {
+        window.iframeConfig.iframe_2 = {
+          layer_index: index,
+          layer_layero: layero
+        };
+      }
+    });
+
+  });
+
+  $(document).on('click', '#btn5', function () {
+    layer.open({
+      type: 2,
+      title: '五号 layer iframe 层',
+      area: ['500px', '400px'],
+      offset: 'lb',
+      shade: false,
+      fixed: false,
+      content: './iframe_in_iframe_layer.html',
+      success: function (layero, index) {
+        window.iframeConfig.iframe_5 = {
+          layer_index: index,
+          layer_layero: layero
+        };
+      }
+    });
+  })
+});
+</script>
+</body>
+</html>

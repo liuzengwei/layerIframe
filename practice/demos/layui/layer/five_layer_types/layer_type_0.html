@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>layer 信息框（type: 0）</title>
+</head>
+<body>
+
+<button id="window_mode">原生信息框</button>
+<button id="layer_mode">layer 信息框</button>
+<button id="type0">普通信息框</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+
+<script>
+$(function(){
+  $(document).on('click', '#window_mode', function(){
+    if (confirm('是否呼叫 FBI?')) {
+      alert('已为您呼叫！');
+    } else {
+      alert('取消呼叫指令！');
+    }
+  }).on('click', '#layer_mode', function(){
+    layer.confirm('是否呼叫 FBI?', function(){
+      layer.alert('已为您呼叫！');
+    }, function(){
+      layer.alert('取消呼叫指令！');
+    });
+  }).on('click', '#type0', function(){
+    layer.open({
+      type: 0,
+      content: '我是一个信息框'
+    });
+  });
+});
+</script>
+</body>
+</html>

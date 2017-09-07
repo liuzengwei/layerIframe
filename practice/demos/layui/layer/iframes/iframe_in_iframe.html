@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>嵌套 iframe</title>
+  <style type="text/css">
+    .normal_iframe {
+      border: 2px solid #808080;
+      width: 500px;
+    }
+
+    #btn0, #btn1 {
+      margin-left: 200px;
+    }
+  </style>
+</head>
+<body>
+<p> 我是一个 iframe，请叫我「三号普通 iframe」，我里面还有一个 iframe，他是「四号普通 iframe」</p>
+
+<button id="btn0">在「我」里面打开 layer iframe 层</button>
+<button id="btn1">直接操作「四号普通 iframe」</button>
+<iframe src="../five_layer_types/layer_type_1.html" class="normal_iframe" id="iframe_4" name="iframe_4" frameborder="0"></iframe>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+<script>
+$(function() {
+  var _number = 0;
+
+  layer.ready(function() {
+    layer.tips('四号普通 iframe', $('#iframe_4'), {
+      tips: 3,
+      time: 0
+    });
+  });
+
+  $(document).on('click', '#btn0', function() {
+    window._iframeIndex = layer.open({
+      type: 2,
+      title: '我是三号里面的 layer iframe 层',
+      shade: false,
+      content: '../five_layer_types/layer_type_0.html'
+    });
+  }).on('click', '#btn1', function() {
+    // 根据 iframe 的 name 属性获取 iframe 对象
+    // top['iframe_1'].layer.msg...
+    var iframe_4 = window['iframe_4']
+
+    iframe_4.layer.msg('三号，你居然修改了我——' + _number++, {
+      time: 0
+    });
+  });
+});
+</script>
+</body>
+</html>

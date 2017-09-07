@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+  <meta charset="UTF-8">
+  <title>嵌套 iframe layer</title>
+  <style type="text/css">
+    .normal_iframe {
+      border: 2px solid #808080;
+      width: 500px;
+    }
+  </style>
+</head>
+<body>
+<button id="btn1">直接操作「六号 layer iframe 层」</button>
+<button id="btn5_index">获取「我」的 index</button>
+<button id="btn5_close">关闭「我」自己</button>
+
+<script type="text/javascript" src="/practice/demos/libs/jquery/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layer/layer.js"></script>
+<script type="text/javascript" src="/practice/demos/libs/layerSilica/layerSilica.js"></script>
+<script>
+$(function() {
+  var _number = 0;
+
+  var iframeIndex6;
+
+  layer.ready(function() {
+    iframeIndex6 = layer.open({
+      type: 2,
+      title: '六号 layer iframe 层',
+      shade: false,
+      fixed: false,
+      content: '../five_layer_types/layer_type_1.html',
+      success: function(layero, index) {
+        top.iframeConfig.iframe_6 = {
+          layer_index: index,
+          layer_layero: layero
+        };
+      }
+    });
+  });
+
+  $(document).on('click', '#btn1', function() {
+    // 根据 iframe 的 name 属性获取 iframe 对象
+    // window['layui-layer-iframe' + 六号 iframe 层的 index].layer.msg...
+    var iframe_6 = layerSilica.getFrameWinBy(iframeIndex6);
+
+    iframe_6.layer.msg('五号，你居然修改了我——' + _number++, {
+      time: 0
+    });
+  }).on('click', '#btn5_index', function() {
+    layer.msg('我的 layer index 是 [' + layerSilica.getSelfIndex(true) + ']');
+
+    // 如果当前页面没有加载 layerSilica.js，也可以使用别的页面的，但是需要在第三个参数传入当前页面的 window 对象
+    console.log('我的 layer index 是 [' + top.layerSilica.getSelfIndex(true, null, window) + ']')
+  }).on('click', '#btn5_close', function() {
+    parent.layer.close(layerSilica.getSelfIndex(true));
+  });
+});
+</script>
+</body>
+</html>
